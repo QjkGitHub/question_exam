@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qjk.dao.QuestionDao">
+    <resultMap id="levelMap" type="Question">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"/>
+        <result property="answer" column="answer"/>
+        <result property="A" column="A"/>
+        <result property="B" column="B"/>
+        <result property="C" column="C"/>
+        <result property="D" column="D"/>
+        <result property="stateId" column="stateid"/>
+        <association property="level" javaType="Level">
+            <id property="levelId" column="levelid"/>
+            <result property="levelName" column="levelname"/>
+            <result property="score" column="score"/>
+        </association>
+    </resultMap>
+    <select id="findQuestionByState" resultMap="levelMap" parameterType="int">
+        select id,title,answer,A,B,`C`,D,stateid,questions.levelid,
+               levelname,score
+        from questions
+                 inner join `level` on questions.levelid=`level`.levelid
+        where stateid=#{stateId} and questions.levelid=#{levelId}
+    </select>
+    <select id="getStateIdList" resultType="java.lang.Integer">
+        select distinct stateid from questions order by stateid
+    </select>
+    <select id="getLevelIdList" resultType="java.lang.Integer">
+        select distinct levelId from questions order by levelid
+    </select>
+</mapper>
