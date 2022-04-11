@@ -1,2 +1,4 @@
-package com.qjk.pojo;public class Test {
+package com.qjk.pojo;
+
+public class Test {
 }
